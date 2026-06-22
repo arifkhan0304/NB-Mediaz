@@ -1,0 +1,974 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>NB Mediaz – Your Vision, Our Creation</title>
+<meta name="description" content="NB Mediaz – Premium creative agency for weddings, real estate, commercial brands and social media. Based in Nashik. Contact Arif Khan."/>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Bebas+Neue&family=Barlow+Condensed:wght@400;600;700;800&display=swap" rel="stylesheet"/>
+<style>
+  :root{
+    --orange:#FB6602;
+    --orange-dim:rgba(251,102,2,0.15);
+    --orange-glow:rgba(251,102,2,0.35);
+    --dark:#121212;
+    --dark2:#1a1a1a;
+    --dark3:#222;
+    --glass:rgba(255,255,255,0.04);
+    --glass-border:rgba(255,255,255,0.08);
+    --light:#FCFCFC;
+    --muted:rgba(252,252,252,0.55);
+    --radius:16px;
+  }
+  *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+  html{scroll-behavior:smooth;overflow-x:hidden;}
+  body{background:var(--dark);color:var(--light);font-family:'Inter',sans-serif;overflow-x:hidden;cursor:none;}
+
+  /* CUSTOM CURSOR */
+  #cursor{position:fixed;width:12px;height:12px;background:var(--orange);border-radius:50%;pointer-events:none;z-index:99999;transform:translate(-50%,-50%);transition:transform 0.1s,width 0.2s,height 0.2s;mix-blend-mode:difference;}
+  #cursor-ring{position:fixed;width:40px;height:40px;border:1.5px solid var(--orange);border-radius:50%;pointer-events:none;z-index:99998;transform:translate(-50%,-50%);transition:transform 0.12s ease,width 0.2s,height 0.2s,opacity 0.2s;opacity:0.6;}
+
+  /* SCROLL PROGRESS */
+  #scroll-prog{position:fixed;top:0;left:0;height:3px;background:linear-gradient(90deg,var(--orange),#ff9c44);z-index:9999;width:0%;transition:width 0.1s;}
+
+  /* LOADING SCREEN */
+  #loader{position:fixed;inset:0;background:var(--dark);z-index:99997;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:20px;transition:opacity 0.6s,visibility 0.6s;}
+  #loader.hide{opacity:0;visibility:hidden;}
+  .loader-logo{font-family:'Bebas Neue',sans-serif;font-size:72px;color:var(--orange);letter-spacing:4px;animation:pulse 1s ease-in-out infinite;}
+  .loader-bar-wrap{width:200px;height:2px;background:rgba(255,255,255,0.1);border-radius:2px;overflow:hidden;}
+  .loader-bar{height:100%;background:var(--orange);width:0%;animation:loadbar 1.8s ease forwards;}
+  @keyframes loadbar{0%{width:0%}100%{width:100%}}
+  @keyframes pulse{0%,100%{opacity:1}50%{opacity:0.5}}
+
+  /* NAV */
+  nav{position:fixed;top:0;left:0;right:0;z-index:1000;padding:16px 40px;display:flex;align-items:center;justify-content:space-between;background:rgba(18,18,18,0.8);backdrop-filter:blur(20px);border-bottom:1px solid var(--glass-border);transition:all 0.3s;}
+  nav.scrolled{padding:12px 40px;}
+  .nav-logo{display:flex;align-items:center;gap:10px;text-decoration:none;}
+  .nav-logo-icon{width:42px;height:42px;background:#000;border-radius:50%;display:flex;align-items:center;justify-content:center;font-family:'Bebas Neue',sans-serif;font-size:20px;color:var(--orange);border:2px solid var(--orange);flex-shrink:0;}
+  .nav-logo-text{font-family:'Bebas Neue',sans-serif;font-size:22px;color:var(--light);letter-spacing:2px;}
+  .nav-logo-text span{color:var(--orange);}
+  .nav-links{display:flex;align-items:center;gap:28px;list-style:none;}
+  .nav-links a{color:var(--muted);text-decoration:none;font-size:13px;font-weight:500;letter-spacing:0.5px;transition:color 0.2s;text-transform:uppercase;}
+  .nav-links a:hover{color:var(--orange);}
+  .nav-cta{background:var(--orange);color:#fff;padding:9px 22px;border-radius:50px;font-size:13px;font-weight:600;text-decoration:none;letter-spacing:0.3px;transition:all 0.2s;white-space:nowrap;}
+  .nav-cta:hover{background:#e55a00;transform:translateY(-1px);box-shadow:0 8px 24px var(--orange-glow);}
+  .hamburger{display:none;flex-direction:column;gap:5px;cursor:pointer;padding:4px;}
+  .hamburger span{width:24px;height:2px;background:var(--light);border-radius:2px;transition:all 0.3s;}
+  .mobile-menu{display:none;position:fixed;inset:0;background:var(--dark);z-index:999;flex-direction:column;align-items:center;justify-content:center;gap:32px;}
+  .mobile-menu.open{display:flex;}
+  .mobile-menu a{color:var(--light);text-decoration:none;font-family:'Bebas Neue',sans-serif;font-size:36px;letter-spacing:2px;transition:color 0.2s;}
+  .mobile-menu a:hover{color:var(--orange);}
+  .mobile-close{position:absolute;top:20px;right:24px;font-size:28px;cursor:pointer;color:var(--muted);}
+
+  /* HERO */
+  #hero{min-height:100vh;position:relative;display:flex;align-items:center;overflow:hidden;padding:0 40px;padding-top:80px;}
+  .hero-bg{position:absolute;inset:0;overflow:hidden;}
+  .hero-grid{position:absolute;inset:0;background-image:linear-gradient(rgba(251,102,2,0.04) 1px,transparent 1px),linear-gradient(90deg,rgba(251,102,2,0.04) 1px,transparent 1px);background-size:60px 60px;opacity:0.6;}
+  .hero-glow-left{position:absolute;left:-200px;top:50%;transform:translateY(-50%);width:600px;height:600px;background:radial-gradient(circle,rgba(251,102,2,0.2) 0%,transparent 70%);pointer-events:none;}
+  .hero-glow-right{position:absolute;right:-100px;bottom:-100px;width:400px;height:400px;background:radial-gradient(circle,rgba(251,102,2,0.1) 0%,transparent 70%);pointer-events:none;}
+  .hero-content{position:relative;z-index:2;max-width:1300px;margin:0 auto;width:100%;display:grid;grid-template-columns:1fr 1fr;gap:60px;align-items:center;}
+  .hero-left{}
+  .hero-eyebrow{display:inline-flex;align-items:center;gap:8px;background:var(--orange-dim);border:1px solid var(--orange-glow);padding:6px 14px;border-radius:50px;font-size:11px;font-weight:600;letter-spacing:1.5px;text-transform:uppercase;color:var(--orange);margin-bottom:20px;}
+  .hero-eyebrow::before{content:'';width:6px;height:6px;background:var(--orange);border-radius:50%;animation:blink 1.5s infinite;}
+  @keyframes blink{0%,100%{opacity:1}50%{opacity:0.3}}
+  .hero-title{font-family:'Bebas Neue',sans-serif;font-size:clamp(56px,7vw,96px);line-height:0.95;letter-spacing:2px;margin-bottom:16px;}
+  .hero-title span{color:var(--orange);}
+  .hero-sub{font-size:16px;color:var(--muted);line-height:1.65;max-width:480px;margin-bottom:32px;}
+  .hero-btns{display:flex;gap:14px;flex-wrap:wrap;}
+  .btn-primary{background:var(--orange);color:#fff;padding:13px 28px;border-radius:50px;font-weight:600;font-size:14px;text-decoration:none;transition:all 0.25s;display:inline-flex;align-items:center;gap:8px;letter-spacing:0.3px;}
+  .btn-primary:hover{background:#e55a00;transform:translateY(-2px);box-shadow:0 12px 32px var(--orange-glow);}
+  .btn-secondary{background:transparent;color:var(--light);padding:13px 28px;border-radius:50px;font-weight:600;font-size:14px;text-decoration:none;border:1.5px solid var(--glass-border);transition:all 0.25s;display:inline-flex;align-items:center;gap:8px;}
+  .btn-secondary:hover{border-color:var(--orange);color:var(--orange);}
+  .hero-stats{display:flex;gap:32px;margin-top:40px;padding-top:32px;border-top:1px solid var(--glass-border);}
+  .hero-stat-num{font-family:'Bebas Neue',sans-serif;font-size:36px;color:var(--orange);}
+  .hero-stat-label{font-size:11px;color:var(--muted);letter-spacing:0.5px;text-transform:uppercase;margin-top:2px;}
+  .hero-right{position:relative;}
+  .hero-card-main{background:var(--glass);border:1px solid var(--glass-border);border-radius:24px;padding:24px;backdrop-filter:blur(20px);position:relative;overflow:hidden;}
+  .hero-card-main::before{content:'';position:absolute;inset:0;background:linear-gradient(135deg,rgba(251,102,2,0.08) 0%,transparent 60%);pointer-events:none;}
+  .hero-viewfinder{position:absolute;top:12px;right:12px;width:60px;height:60px;border:2px solid rgba(251,102,2,0.4);border-radius:4px;}
+  .hero-viewfinder::before,.hero-viewfinder::after{content:'';position:absolute;background:var(--orange);}
+  .hero-viewfinder::before{width:8px;height:2px;top:-2px;left:4px;}
+  .hero-viewfinder::after{width:2px;height:8px;top:4px;left:-2px;}
+  .hero-service-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:16px;}
+  .h-service-item{background:rgba(255,255,255,0.03);border:1px solid var(--glass-border);border-radius:12px;padding:14px;display:flex;align-items:center;gap:10px;transition:all 0.2s;}
+  .h-service-item:hover{border-color:var(--orange-glow);background:var(--orange-dim);}
+  .h-service-icon{width:36px;height:36px;background:var(--orange-dim);border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:16px;flex-shrink:0;}
+  .h-service-name{font-size:12px;font-weight:600;line-height:1.3;}
+  .hero-ticker{overflow:hidden;border-top:1px solid var(--glass-border);padding-top:14px;position:relative;}
+  .hero-ticker-inner{display:flex;gap:24px;animation:ticker 20s linear infinite;white-space:nowrap;}
+  .hero-ticker-inner span{font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:1px;flex-shrink:0;}
+  .hero-ticker-inner .dot{color:var(--orange);}
+  @keyframes ticker{0%{transform:translateX(0)}100%{transform:translateX(-50%)}}
+
+  /* SECTION COMMON */
+  section{padding:90px 40px;}
+  .section-max{max-width:1300px;margin:0 auto;}
+  .section-eyebrow{display:inline-flex;align-items:center;gap:8px;font-size:11px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--orange);margin-bottom:12px;}
+  .section-eyebrow::before{content:'';width:24px;height:2px;background:var(--orange);}
+  .section-title{font-family:'Bebas Neue',sans-serif;font-size:clamp(40px,5vw,64px);letter-spacing:1.5px;line-height:1;margin-bottom:16px;}
+  .section-title span{color:var(--orange);}
+  .section-sub{font-size:15px;color:var(--muted);line-height:1.7;max-width:560px;}
+  .section-header{margin-bottom:56px;}
+
+  /* MARQUEE DIVIDER */
+  .marquee-div{overflow:hidden;border-top:1px solid var(--glass-border);border-bottom:1px solid var(--glass-border);padding:14px 0;margin:0;background:rgba(251,102,2,0.03);}
+  .marquee-inner{display:flex;gap:0;animation:marquee 18s linear infinite;}
+  .marquee-item{font-family:'Bebas Neue',sans-serif;font-size:15px;letter-spacing:3px;color:var(--muted);padding:0 28px;white-space:nowrap;flex-shrink:0;}
+  .marquee-item.accent{color:var(--orange);}
+  @keyframes marquee{0%{transform:translateX(0)}100%{transform:translateX(-50%)}}
+
+  /* ABOUT */
+  #about{background:var(--dark2);}
+  .about-grid{display:grid;grid-template-columns:1fr 1fr;gap:72px;align-items:center;}
+  .about-visual{position:relative;}
+  .about-card{background:var(--glass);border:1px solid var(--glass-border);border-radius:20px;padding:32px;backdrop-filter:blur(20px);position:relative;overflow:hidden;}
+  .about-card::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,var(--orange),transparent);}
+  .about-avatar{width:80px;height:80px;background:linear-gradient(135deg,var(--orange),#ff9c44);border-radius:50%;display:flex;align-items:center;justify-content:center;font-family:'Bebas Neue',sans-serif;font-size:32px;color:#fff;margin-bottom:16px;}
+  .about-name{font-family:'Bebas Neue',sans-serif;font-size:28px;letter-spacing:1px;margin-bottom:4px;}
+  .about-role{font-size:12px;color:var(--orange);font-weight:600;letter-spacing:1px;text-transform:uppercase;margin-bottom:16px;}
+  .about-desc{font-size:14px;color:var(--muted);line-height:1.7;margin-bottom:24px;}
+  .about-tags{display:flex;flex-wrap:wrap;gap:8px;}
+  .about-tag{background:var(--orange-dim);border:1px solid var(--orange-glow);color:var(--orange);font-size:11px;font-weight:600;padding:5px 12px;border-radius:50px;letter-spacing:0.5px;}
+  .about-float{position:absolute;top:-20px;right:-20px;background:var(--orange);color:#fff;border-radius:12px;padding:12px 16px;font-family:'Bebas Neue',sans-serif;font-size:22px;letter-spacing:1px;box-shadow:0 8px 24px var(--orange-glow);}
+  .about-text h2{margin-bottom:20px;}
+  .about-text p{font-size:15px;color:var(--muted);line-height:1.8;margin-bottom:18px;}
+  .about-features{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:28px;}
+  .about-feat{display:flex;align-items:flex-start;gap:12px;}
+  .about-feat-icon{width:38px;height:38px;background:var(--orange-dim);border:1px solid var(--orange-glow);border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:17px;flex-shrink:0;}
+  .about-feat-text{font-size:13px;font-weight:600;line-height:1.4;}
+  .about-feat-sub{font-size:12px;color:var(--muted);margin-top:3px;line-height:1.4;}
+
+  /* SERVICES */
+  #services{}
+  .services-tabs{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:40px;}
+  .s-tab{padding:8px 18px;border-radius:50px;font-size:12px;font-weight:600;letter-spacing:0.5px;cursor:pointer;transition:all 0.2s;border:1.5px solid var(--glass-border);color:var(--muted);background:transparent;}
+  .s-tab.active,.s-tab:hover{background:var(--orange);color:#fff;border-color:var(--orange);}
+  .services-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:18px;}
+  .service-card{background:var(--glass);border:1px solid var(--glass-border);border-radius:var(--radius);padding:24px;transition:all 0.3s;cursor:pointer;position:relative;overflow:hidden;}
+  .service-card::before{content:'';position:absolute;bottom:0;left:0;right:0;height:0;background:linear-gradient(transparent,rgba(251,102,2,0.06));transition:height 0.3s;}
+  .service-card:hover{border-color:var(--orange-glow);transform:translateY(-4px);box-shadow:0 16px 40px rgba(0,0,0,0.3);}
+  .service-card:hover::before{height:100%;}
+  .s-card-icon{width:48px;height:48px;background:var(--orange-dim);border:1px solid var(--orange-glow);border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:22px;margin-bottom:16px;}
+  .s-card-title{font-weight:700;font-size:15px;margin-bottom:8px;}
+  .s-card-items{list-style:none;display:flex;flex-direction:column;gap:5px;}
+  .s-card-items li{font-size:12px;color:var(--muted);display:flex;align-items:center;gap:6px;}
+  .s-card-items li::before{content:'→';color:var(--orange);font-size:10px;}
+  .s-card-badge{position:absolute;top:14px;right:14px;font-size:10px;font-weight:700;padding:3px 8px;border-radius:50px;background:var(--orange);color:#fff;letter-spacing:0.5px;}
+
+  /* PORTFOLIO */
+  #portfolio{background:var(--dark2);}
+  .portfolio-filter{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:40px;}
+  .pf-btn{padding:7px 16px;border-radius:50px;font-size:12px;font-weight:600;cursor:pointer;border:1.5px solid var(--glass-border);color:var(--muted);background:transparent;transition:all 0.2s;}
+  .pf-btn.active,.pf-btn:hover{background:var(--orange);color:#fff;border-color:var(--orange);}
+  .portfolio-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:20px;}
+  .portfolio-card{position:relative;border-radius:var(--radius);overflow:hidden;aspect-ratio:4/3;cursor:pointer;group:;}
+  .portfolio-thumb{width:100%;height:100%;object-fit:cover;background:var(--dark3);display:flex;align-items:center;justify-content:center;}
+  .portfolio-placeholder{width:100%;height:100%;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:12px;transition:transform 0.4s;}
+  .portfolio-card:hover .portfolio-placeholder{transform:scale(1.05);}
+  .pf-icon{font-size:36px;opacity:0.3;}
+  .pf-label{font-size:12px;color:var(--muted);font-weight:500;}
+  .portfolio-overlay{position:absolute;inset:0;background:linear-gradient(transparent 40%,rgba(18,18,18,0.95) 100%);opacity:0;transition:opacity 0.3s;display:flex;flex-direction:column;justify-content:flex-end;padding:20px;}
+  .portfolio-card:hover .portfolio-overlay{opacity:1;}
+  .pf-card-title{font-weight:700;font-size:15px;margin-bottom:4px;}
+  .pf-card-sub{font-size:12px;color:var(--muted);margin-bottom:12px;}
+  .pf-view-btn{display:inline-flex;align-items:center;gap:6px;font-size:12px;font-weight:600;color:var(--orange);background:var(--orange-dim);border:1px solid var(--orange-glow);padding:6px 14px;border-radius:50px;text-decoration:none;w:fit-content;}
+  .portfolio-cat-tag{position:absolute;top:12px;left:12px;background:rgba(18,18,18,0.8);backdrop-filter:blur(8px);font-size:10px;font-weight:700;padding:4px 10px;border-radius:50px;letter-spacing:0.5px;text-transform:uppercase;color:var(--muted);border:1px solid var(--glass-border);}
+  .pf-color-1{background:linear-gradient(135deg,#1a0a00,#2d1500);}
+  .pf-color-2{background:linear-gradient(135deg,#0a0a1a,#15152d);}
+  .pf-color-3{background:linear-gradient(135deg,#0a1a0a,#152d15);}
+  .pf-color-4{background:linear-gradient(135deg,#1a001a,#2d0a2d);}
+  .pf-color-5{background:linear-gradient(135deg,#1a1a00,#2d2d00);}
+  .pf-color-6{background:linear-gradient(135deg,#001a1a,#002d2d);}
+
+  /* SOCIAL MEDIA GROWTH */
+  #social{background:linear-gradient(135deg,var(--dark) 0%,rgba(251,102,2,0.05) 50%,var(--dark) 100%);}
+  .social-grid{display:grid;grid-template-columns:1fr 1fr;gap:60px;align-items:center;}
+  .social-metrics{display:grid;grid-template-columns:1fr 1fr;gap:16px;}
+  .metric-card{background:var(--glass);border:1px solid var(--glass-border);border-radius:var(--radius);padding:20px;text-align:center;transition:all 0.3s;}
+  .metric-card:hover{border-color:var(--orange-glow);box-shadow:0 8px 24px rgba(0,0,0,0.3);}
+  .metric-num{font-family:'Bebas Neue',sans-serif;font-size:42px;color:var(--orange);line-height:1;margin-bottom:4px;}
+  .metric-label{font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:1px;}
+  .social-features{display:flex;flex-direction:column;gap:16px;margin-top:32px;}
+  .social-feat{display:flex;align-items:center;gap:14px;background:var(--glass);border:1px solid var(--glass-border);border-radius:12px;padding:14px 18px;transition:all 0.2s;}
+  .social-feat:hover{border-color:var(--orange-glow);}
+  .social-feat-icon{font-size:22px;flex-shrink:0;}
+  .social-feat-title{font-weight:600;font-size:14px;margin-bottom:2px;}
+  .social-feat-sub{font-size:12px;color:var(--muted);}
+
+  /* SOFTWARE */
+  #software{background:var(--dark2);}
+  .software-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:16px;}
+  .sw-card{background:var(--glass);border:1px solid var(--glass-border);border-radius:var(--radius);padding:24px 16px;text-align:center;transition:all 0.3s;position:relative;overflow:hidden;}
+  .sw-card::after{content:'';position:absolute;bottom:0;left:0;right:0;height:3px;background:transparent;transition:background 0.3s;}
+  .sw-card:hover{transform:translateY(-6px);border-color:var(--orange-glow);box-shadow:0 16px 40px rgba(0,0,0,0.4);}
+  .sw-card:hover::after{background:var(--orange);}
+  .sw-icon{font-size:36px;margin-bottom:12px;display:block;}
+  .sw-name{font-weight:700;font-size:13px;margin-bottom:6px;}
+  .sw-bar-wrap{height:3px;background:rgba(255,255,255,0.08);border-radius:2px;overflow:hidden;}
+  .sw-bar{height:100%;background:linear-gradient(90deg,var(--orange),#ff9c44);border-radius:2px;}
+  .sw-pct{font-size:10px;color:var(--orange);font-weight:600;margin-top:5px;}
+
+  /* EQUIPMENT */
+  #equipment{}
+  .equip-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:16px;}
+  .equip-card{background:var(--glass);border:1px solid var(--glass-border);border-radius:var(--radius);padding:22px;text-align:center;transition:all 0.3s;}
+  .equip-card:hover{border-color:var(--orange-glow);transform:translateY(-4px);}
+  .equip-icon{font-size:32px;margin-bottom:10px;display:block;}
+  .equip-cat{font-size:10px;color:var(--orange);font-weight:700;letter-spacing:1px;text-transform:uppercase;margin-bottom:6px;}
+  .equip-name{font-weight:600;font-size:13px;}
+
+  /* WHY US */
+  #why{background:var(--dark2);}
+  .why-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:20px;}
+  .why-card{background:var(--glass);border:1px solid var(--glass-border);border-radius:var(--radius);padding:28px;transition:all 0.3s;position:relative;overflow:hidden;}
+  .why-card::before{content:'';position:absolute;top:0;left:0;width:3px;height:0;background:var(--orange);transition:height 0.3s;}
+  .why-card:hover::before{height:100%;}
+  .why-card:hover{border-color:var(--orange-glow);box-shadow:0 12px 32px rgba(0,0,0,0.3);}
+  .why-icon{width:52px;height:52px;background:var(--orange-dim);border:1px solid var(--orange-glow);border-radius:14px;display:flex;align-items:center;justify-content:center;font-size:24px;margin-bottom:18px;}
+  .why-title{font-weight:700;font-size:16px;margin-bottom:8px;}
+  .why-desc{font-size:13px;color:var(--muted);line-height:1.7;}
+
+  /* TESTIMONIALS */
+  #testimonials{}
+  .testi-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(320px,1fr));gap:20px;}
+  .testi-card{background:var(--glass);border:1px solid var(--glass-border);border-radius:var(--radius);padding:28px;position:relative;overflow:hidden;transition:all 0.3s;}
+  .testi-card:hover{border-color:var(--orange-glow);box-shadow:0 12px 32px rgba(0,0,0,0.3);}
+  .testi-quote{font-size:48px;color:var(--orange);line-height:1;opacity:0.3;position:absolute;top:16px;right:20px;font-family:Georgia,serif;}
+  .testi-text{font-size:14px;color:var(--muted);line-height:1.75;margin-bottom:20px;font-style:italic;}
+  .testi-author{display:flex;align-items:center;gap:12px;}
+  .testi-avatar{width:44px;height:44px;background:linear-gradient(135deg,var(--orange),#ff9c44);border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:16px;color:#fff;flex-shrink:0;}
+  .testi-name{font-weight:600;font-size:14px;}
+  .testi-role{font-size:11px;color:var(--orange);}
+  .testi-stars{color:var(--orange);font-size:12px;margin-bottom:14px;letter-spacing:2px;}
+
+  /* INSTAGRAM */
+  #instagram{background:var(--dark2);}
+  .insta-header{text-align:center;margin-bottom:40px;}
+  .insta-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;max-width:800px;margin:0 auto 40px;}
+  .insta-item{aspect-ratio:1;border-radius:12px;overflow:hidden;position:relative;cursor:pointer;}
+  .insta-placeholder{width:100%;height:100%;display:flex;align-items:center;justify-content:center;font-size:28px;transition:transform 0.3s;}
+  .insta-item:hover .insta-placeholder{transform:scale(1.1);}
+  .insta-overlay{position:absolute;inset:0;background:rgba(251,102,2,0.7);opacity:0;display:flex;align-items:center;justify-content:center;font-size:24px;transition:opacity 0.3s;}
+  .insta-item:hover .insta-overlay{opacity:1;}
+  .insta-cta{text-align:center;}
+  .insta-follow-btn{display:inline-flex;align-items:center;gap:10px;background:linear-gradient(135deg,#833ab4,#fd1d1d,#fcb045);color:#fff;padding:13px 28px;border-radius:50px;font-weight:600;font-size:14px;text-decoration:none;transition:all 0.2s;}
+  .insta-follow-btn:hover{transform:translateY(-2px);box-shadow:0 12px 32px rgba(253,29,29,0.3);}
+
+  /* CONTACT */
+  #contact{background:linear-gradient(135deg,rgba(251,102,2,0.08) 0%,var(--dark) 50%);}
+  .contact-grid{display:grid;grid-template-columns:1fr 1fr;gap:60px;}
+  .contact-info h2{margin-bottom:16px;}
+  .contact-info p{font-size:15px;color:var(--muted);line-height:1.7;margin-bottom:36px;}
+  .contact-items{display:flex;flex-direction:column;gap:18px;}
+  .contact-item{display:flex;align-items:center;gap:16px;}
+  .c-icon{width:48px;height:48px;background:var(--orange-dim);border:1px solid var(--orange-glow);border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:20px;flex-shrink:0;}
+  .c-label{font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:1px;margin-bottom:2px;}
+  .c-val{font-weight:600;font-size:15px;}
+  .c-val a{color:var(--light);text-decoration:none;}
+  .c-val a:hover{color:var(--orange);}
+  .contact-btns{display:flex;flex-direction:column;gap:12px;margin-top:32px;}
+  .c-btn{display:flex;align-items:center;gap:12px;padding:14px 22px;border-radius:12px;font-weight:600;font-size:14px;text-decoration:none;transition:all 0.2s;border:1.5px solid;}
+  .c-btn-call{background:var(--orange);color:#fff;border-color:var(--orange);}
+  .c-btn-call:hover{background:#e55a00;box-shadow:0 8px 24px var(--orange-glow);}
+  .c-btn-wa{background:#25D366;color:#fff;border-color:#25D366;}
+  .c-btn-wa:hover{background:#1db954;box-shadow:0 8px 24px rgba(37,211,102,0.3);}
+  .c-btn-ig{background:linear-gradient(135deg,#833ab4,#fd1d1d,#fcb045);color:#fff;border-color:transparent;}
+  .c-btn-ig:hover{transform:translateY(-2px);box-shadow:0 8px 24px rgba(253,29,29,0.3);}
+  .contact-form{background:var(--glass);border:1px solid var(--glass-border);border-radius:20px;padding:36px;backdrop-filter:blur(20px);}
+  .contact-form h3{font-family:'Bebas Neue',sans-serif;font-size:28px;letter-spacing:1px;margin-bottom:24px;}
+  .form-group{margin-bottom:18px;}
+  .form-group label{display:block;font-size:12px;font-weight:600;color:var(--muted);letter-spacing:0.5px;text-transform:uppercase;margin-bottom:8px;}
+  .form-group input,.form-group select,.form-group textarea{width:100%;background:rgba(255,255,255,0.04);border:1.5px solid var(--glass-border);border-radius:10px;padding:12px 16px;font-family:'Inter',sans-serif;font-size:14px;color:var(--light);outline:none;transition:border-color 0.2s;}
+  .form-group input:focus,.form-group select:focus,.form-group textarea:focus{border-color:var(--orange);}
+  .form-group textarea{min-height:100px;resize:vertical;}
+  .form-group select option{background:var(--dark2);}
+  .form-submit{background:var(--orange);color:#fff;border:none;padding:13px 28px;border-radius:50px;font-weight:600;font-size:14px;cursor:pointer;width:100%;transition:all 0.2s;font-family:'Inter',sans-serif;}
+  .form-submit:hover{background:#e55a00;box-shadow:0 8px 24px var(--orange-glow);}
+
+  /* FOOTER */
+  footer{background:#0a0a0a;border-top:1px solid var(--glass-border);padding:60px 40px 30px;}
+  .footer-grid{display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:48px;max-width:1300px;margin:0 auto;margin-bottom:48px;}
+  .footer-brand p{font-size:13px;color:var(--muted);line-height:1.7;margin-top:14px;max-width:280px;}
+  .footer-social{display:flex;gap:10px;margin-top:20px;}
+  .footer-social a{width:36px;height:36px;background:var(--glass);border:1px solid var(--glass-border);border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:16px;text-decoration:none;transition:all 0.2s;}
+  .footer-social a:hover{background:var(--orange-dim);border-color:var(--orange-glow);}
+  .footer-col h4{font-weight:700;font-size:13px;letter-spacing:1px;text-transform:uppercase;margin-bottom:18px;color:var(--light);}
+  .footer-col ul{list-style:none;display:flex;flex-direction:column;gap:10px;}
+  .footer-col ul a{color:var(--muted);text-decoration:none;font-size:13px;transition:color 0.2s;}
+  .footer-col ul a:hover{color:var(--orange);}
+  .footer-bottom{max-width:1300px;margin:0 auto;padding-top:24px;border-top:1px solid var(--glass-border);display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:16px;}
+  .footer-bottom p{font-size:12px;color:var(--muted);}
+  .footer-logo-wrap{display:flex;align-items:center;gap:10px;text-decoration:none;margin-bottom:0;}
+  .footer-nb{font-family:'Bebas Neue',sans-serif;font-size:24px;letter-spacing:1px;}
+  .footer-nb span{color:var(--orange);}
+
+  /* FLOATING BUTTONS */
+  .float-wa{position:fixed;bottom:80px;right:24px;width:52px;height:52px;background:#25D366;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:26px;z-index:500;cursor:pointer;box-shadow:0 4px 20px rgba(37,211,102,0.4);transition:transform 0.2s;text-decoration:none;}
+  .float-wa:hover{transform:scale(1.1);}
+  .float-top{position:fixed;bottom:24px;right:24px;width:44px;height:44px;background:var(--orange);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:20px;z-index:500;cursor:pointer;opacity:0;transition:all 0.3s;box-shadow:0 4px 16px var(--orange-glow);}
+  .float-top.show{opacity:1;}
+  .float-top:hover{transform:translateY(-2px);}
+
+  /* REVEAL ANIMATIONS */
+  .reveal{opacity:0;transform:translateY(30px);transition:opacity 0.6s ease,transform 0.6s ease;}
+  .reveal.visible{opacity:1;transform:translateY(0);}
+  .reveal-left{opacity:0;transform:translateX(-30px);transition:opacity 0.6s ease,transform 0.6s ease;}
+  .reveal-left.visible{opacity:1;transform:translateX(0);}
+  .reveal-right{opacity:0;transform:translateX(30px);transition:opacity 0.6s ease,transform 0.6s ease;}
+  .reveal-right.visible{opacity:1;transform:translateX(0);}
+
+  /* RESPONSIVE */
+  @media(max-width:1024px){
+    .hero-content{grid-template-columns:1fr;}
+    .hero-right{display:none;}
+    .about-grid{grid-template-columns:1fr;}
+    .contact-grid{grid-template-columns:1fr;}
+    .footer-grid{grid-template-columns:1fr 1fr;}
+    .social-grid{grid-template-columns:1fr;}
+  }
+  @media(max-width:768px){
+    section{padding:64px 20px;}
+    nav{padding:14px 20px;}
+    nav.scrolled{padding:10px 20px;}
+    #hero{padding:0 20px;padding-top:72px;}
+    .hero-stats{gap:20px;}
+    .nav-links{display:none;}
+    .hamburger{display:flex;}
+    .footer-grid{grid-template-columns:1fr;}
+    .services-grid{grid-template-columns:1fr 1fr;}
+    .why-grid{grid-template-columns:1fr 1fr;}
+    .insta-grid{grid-template-columns:repeat(3,1fr);}
+    .contact-btns{flex-direction:column;}
+    .social-metrics{grid-template-columns:1fr 1fr;}
+    .about-features{grid-template-columns:1fr;}
+  }
+  @media(max-width:480px){
+    .services-grid{grid-template-columns:1fr;}
+    .why-grid{grid-template-columns:1fr;}
+    .hero-btns{flex-direction:column;}
+    .portfolio-grid{grid-template-columns:1fr 1fr;}
+    .software-grid{grid-template-columns:repeat(3,1fr);}
+    .equip-grid{grid-template-columns:repeat(3,1fr);}
+    .insta-grid{gap:8px;}
+    .footer-grid{grid-template-columns:1fr;}
+    .footer-bottom{flex-direction:column;text-align:center;}
+  }
+</style>
+</head>
+<body>
+
+<!-- CUSTOM CURSOR -->
+<div id="cursor"></div>
+<div id="cursor-ring"></div>
+
+<!-- SCROLL PROGRESS -->
+<div id="scroll-prog"></div>
+
+<!-- LOADER -->
+<div id="loader">
+  <div class="loader-logo">NB</div>
+  <div class="loader-bar-wrap"><div class="loader-bar"></div></div>
+  <p style="font-size:12px;color:var(--muted);letter-spacing:2px;text-transform:uppercase;">Your Vision, Our Creation</p>
+</div>
+
+<!-- MOBILE MENU -->
+<div class="mobile-menu" id="mobileMenu">
+  <span class="mobile-close" id="mobileClose">✕</span>
+  <a href="#hero" onclick="closeMobile()">Home</a>
+  <a href="#about" onclick="closeMobile()">About</a>
+  <a href="#services" onclick="closeMobile()">Services</a>
+  <a href="#portfolio" onclick="closeMobile()">Portfolio</a>
+  <a href="#contact" onclick="closeMobile()">Contact</a>
+</div>
+
+<!-- NAV -->
+<nav id="navbar">
+  <a class="nav-logo" href="#hero">
+    <div class="nav-logo-icon">NB</div>
+    <span class="nav-logo-text"><span>NB</span> MEDIAZ</span>
+  </a>
+  <ul class="nav-links">
+    <li><a href="#about">About</a></li>
+    <li><a href="#services">Services</a></li>
+    <li><a href="#portfolio">Portfolio</a></li>
+    <li><a href="#software">Skills</a></li>
+    <li><a href="#why">Why Us</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+  <a href="#contact" class="nav-cta">Get Quote</a>
+  <div class="hamburger" id="hamburger" onclick="openMobile()"><span></span><span></span><span></span></div>
+</nav>
+
+<!-- HERO -->
+<section id="hero">
+  <div class="hero-bg">
+    <div class="hero-grid"></div>
+    <div class="hero-glow-left"></div>
+    <div class="hero-glow-right"></div>
+  </div>
+  <div class="hero-content">
+    <div class="hero-left">
+      <div class="hero-eyebrow">🎬 Creative Agency · Nashik</div>
+      <h1 class="hero-title">Your Vision,<br/><span>Our Creation</span></h1>
+      <p class="hero-sub">We transform brands, weddings, properties and products into scroll-stopping visual experiences that leave a lasting impression.</p>
+      <div class="hero-btns">
+        <a href="#portfolio" class="btn-primary">🎞 View Portfolio</a>
+        <a href="#contact" class="btn-secondary">📩 Contact Us</a>
+      </div>
+      <div class="hero-stats">
+        <div>
+          <div class="hero-stat-num">100+</div>
+          <div class="hero-stat-label">Projects Done</div>
+        </div>
+        <div>
+          <div class="hero-stat-num">50+</div>
+          <div class="hero-stat-label">Happy Clients</div>
+        </div>
+        <div>
+          <div class="hero-stat-num">6+</div>
+          <div class="hero-stat-label">Services</div>
+        </div>
+        <div>
+          <div class="hero-stat-num">3+</div>
+          <div class="hero-stat-label">Years Exp.</div>
+        </div>
+      </div>
+    </div>
+    <div class="hero-right">
+      <div class="hero-card-main">
+        <div class="hero-viewfinder"></div>
+        <div class="hero-service-grid">
+          <div class="h-service-item"><div class="h-service-icon">💒</div><div class="h-service-name">Wedding Films</div></div>
+          <div class="h-service-item"><div class="h-service-icon">🏢</div><div class="h-service-name">Real Estate</div></div>
+          <div class="h-service-item"><div class="h-service-icon">🎯</div><div class="h-service-name">Brand Films</div></div>
+          <div class="h-service-item"><div class="h-service-icon">📱</div><div class="h-service-name">Social Media</div></div>
+          <div class="h-service-item"><div class="h-service-icon">🎨</div><div class="h-service-name">Graphic Design</div></div>
+          <div class="h-service-item"><div class="h-service-icon">📸</div><div class="h-service-name">Photography</div></div>
+        </div>
+        <div class="hero-ticker">
+          <div class="hero-ticker-inner">
+            <span>Wedding Reels</span><span class="dot">✦</span>
+            <span>Brand Films</span><span class="dot">✦</span>
+            <span>Real Estate</span><span class="dot">✦</span>
+            <span>Photography</span><span class="dot">✦</span>
+            <span>Graphic Design</span><span class="dot">✦</span>
+            <span>Social Media</span><span class="dot">✦</span>
+            <span>Wedding Reels</span><span class="dot">✦</span>
+            <span>Brand Films</span><span class="dot">✦</span>
+            <span>Real Estate</span><span class="dot">✦</span>
+            <span>Photography</span><span class="dot">✦</span>
+            <span>Graphic Design</span><span class="dot">✦</span>
+            <span>Social Media</span><span class="dot">✦</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- MARQUEE -->
+<div class="marquee-div">
+  <div class="marquee-inner">
+    <span class="marquee-item">Wedding Films</span><span class="marquee-item accent">✦</span>
+    <span class="marquee-item">Real Estate Reels</span><span class="marquee-item accent">✦</span>
+    <span class="marquee-item">Brand Videos</span><span class="marquee-item accent">✦</span>
+    <span class="marquee-item">Graphic Design</span><span class="marquee-item accent">✦</span>
+    <span class="marquee-item">Photography</span><span class="marquee-item accent">✦</span>
+    <span class="marquee-item">Social Media</span><span class="marquee-item accent">✦</span>
+    <span class="marquee-item">Drone Coverage</span><span class="marquee-item accent">✦</span>
+    <span class="marquee-item">Logo Design</span><span class="marquee-item accent">✦</span>
+    <span class="marquee-item">Event Reels</span><span class="marquee-item accent">✦</span>
+    <span class="marquee-item">Wedding Films</span><span class="marquee-item accent">✦</span>
+    <span class="marquee-item">Real Estate Reels</span><span class="marquee-item accent">✦</span>
+    <span class="marquee-item">Brand Videos</span><span class="marquee-item accent">✦</span>
+    <span class="marquee-item">Graphic Design</span><span class="marquee-item accent">✦</span>
+    <span class="marquee-item">Photography</span><span class="marquee-item accent">✦</span>
+    <span class="marquee-item">Social Media</span><span class="marquee-item accent">✦</span>
+    <span class="marquee-item">Drone Coverage</span><span class="marquee-item accent">✦</span>
+    <span class="marquee-item">Logo Design</span><span class="marquee-item accent">✦</span>
+    <span class="marquee-item">Event Reels</span><span class="marquee-item accent">✦</span>
+  </div>
+</div>
+
+<!-- ABOUT -->
+<section id="about">
+  <div class="section-max">
+    <div class="about-grid">
+      <div class="about-visual reveal-left">
+        <div class="about-card">
+          <div class="about-float">NB MEDIAZ</div>
+          <div class="about-avatar">AK</div>
+          <div class="about-name">Arif Khan</div>
+          <div class="about-role">Founder & Creative Director</div>
+          <div class="about-desc">Passionate visual storyteller with years of experience crafting cinematic experiences across weddings, brands, real estate and social media.</div>
+          <div class="about-tags">
+            <span class="about-tag">Video Production</span>
+            <span class="about-tag">Photography</span>
+            <span class="about-tag">Social Media</span>
+            <span class="about-tag">Branding</span>
+          </div>
+        </div>
+      </div>
+      <div class="about-text reveal-right">
+        <div class="section-eyebrow">About NB Mediaz</div>
+        <h2 class="section-title">We Tell <span>Stories</span> That Matter</h2>
+        <p>NB Mediaz is a premium creative agency based in Nashik, Maharashtra. We specialize in transforming brands, businesses, and special moments into scroll-stopping visual narratives.</p>
+        <p>Whether it's a wedding cinematic, real estate reel, product video, or a full social media strategy — we deliver with precision, passion, and purpose. We help businesses, creators and brands grow through impactful visual storytelling.</p>
+        <div class="about-features">
+          <div class="about-feat"><div class="about-feat-icon">🎬</div><div><div class="about-feat-text">Video Production</div><div class="about-feat-sub">Cinematic storytelling</div></div></div>
+          <div class="about-feat"><div class="about-feat-icon">📱</div><div><div class="about-feat-text">Social Media</div><div class="about-feat-sub">Growth & strategy</div></div></div>
+          <div class="about-feat"><div class="about-feat-icon">📸</div><div><div class="about-feat-text">Photography</div><div class="about-feat-sub">Weddings, products & more</div></div></div>
+          <div class="about-feat"><div class="about-feat-icon">🎨</div><div><div class="about-feat-text">Graphic Design</div><div class="about-feat-sub">Logos, posters & branding</div></div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SERVICES -->
+<section id="services">
+  <div class="section-max">
+    <div class="section-header reveal">
+      <div class="section-eyebrow">What We Do</div>
+      <h2 class="section-title">Our <span>Services</span></h2>
+      <p class="section-sub">From weddings to commercial brands — we cover every aspect of your visual identity with premium quality and creative finesse.</p>
+    </div>
+    <div class="services-grid">
+      <div class="service-card reveal">
+        <span class="s-card-badge">Popular</span>
+        <div class="s-card-icon">💒</div>
+        <div class="s-card-title">Wedding Services</div>
+        <ul class="s-card-items">
+          <li>Wedding Reels & Cinematics</li>
+          <li>Wedding Photography</li>
+          <li>Wedding Posters</li>
+          <li>Invitation Designs</li>
+        </ul>
+      </div>
+      <div class="service-card reveal">
+        <div class="s-card-icon">🏢</div>
+        <div class="s-card-title">Real Estate Services</div>
+        <ul class="s-card-items">
+          <li>Property Reels</li>
+          <li>Property Photography</li>
+          <li>Drone Coverage</li>
+          <li>Builder Marketing</li>
+        </ul>
+      </div>
+      <div class="service-card reveal">
+        <div class="s-card-icon">🎯</div>
+        <div class="s-card-title">Commercial Services</div>
+        <ul class="s-card-items">
+          <li>Commercial Reels</li>
+          <li>Product Videos</li>
+          <li>Brand Films</li>
+          <li>Promotional Content</li>
+        </ul>
+      </div>
+      <div class="service-card reveal">
+        <span class="s-card-badge">Trending</span>
+        <div class="s-card-icon">📱</div>
+        <div class="s-card-title">Social Media</div>
+        <ul class="s-card-items">
+          <li>Instagram Management</li>
+          <li>Content Planning</li>
+          <li>Reels Strategy</li>
+          <li>Growth Consulting</li>
+        </ul>
+      </div>
+      <div class="service-card reveal">
+        <div class="s-card-icon">🎨</div>
+        <div class="s-card-title">Design Services</div>
+        <ul class="s-card-items">
+          <li>Graphic Designing</li>
+          <li>Logo Design & Rebranding</li>
+          <li>Poster Design</li>
+          <li>Car Poster Designs</li>
+        </ul>
+      </div>
+      <div class="service-card reveal">
+        <div class="s-card-icon">⚡</div>
+        <div class="s-card-title">More Services</div>
+        <ul class="s-card-items">
+          <li>Car Delivery Videos</li>
+          <li>Food Photography</li>
+          <li>Event Coverage & Reels</li>
+          <li>Resume Design</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PORTFOLIO -->
+<section id="portfolio">
+  <div class="section-max">
+    <div class="section-header reveal">
+      <div class="section-eyebrow">Our Work</div>
+      <h2 class="section-title">Portfolio <span>Showcase</span></h2>
+      <p class="section-sub">A glimpse into our creative universe — cinematic films, stunning photography, and bold design across every category.</p>
+    </div>
+    <div class="portfolio-filter reveal">
+      <button class="pf-btn active" onclick="filterPortfolio('all',this)">All Work</button>
+      <button class="pf-btn" onclick="filterPortfolio('wedding',this)">Wedding</button>
+      <button class="pf-btn" onclick="filterPortfolio('realestate',this)">Real Estate</button>
+      <button class="pf-btn" onclick="filterPortfolio('commercial',this)">Commercial</button>
+      <button class="pf-btn" onclick="filterPortfolio('design',this)">Design</button>
+      <button class="pf-btn" onclick="filterPortfolio('events',this)">Events</button>
+    </div>
+    <div class="portfolio-grid" id="portfolioGrid">
+      <div class="portfolio-card" data-cat="wedding"><div class="portfolio-thumb pf-color-1"><div class="portfolio-placeholder"><span class="pf-icon">💒</span><span class="pf-label">Wedding Reel</span></div></div><span class="portfolio-cat-tag">Wedding</span><div class="portfolio-overlay"><div class="pf-card-title">Wedding Cinematic</div><div class="pf-card-sub">Cinematic wedding film</div><a href="#contact" class="pf-view-btn">View Project →</a></div></div>
+      <div class="portfolio-card" data-cat="wedding"><div class="portfolio-thumb pf-color-2"><div class="portfolio-placeholder"><span class="pf-icon">📸</span><span class="pf-label">Wedding Photography</span></div></div><span class="portfolio-cat-tag">Wedding</span><div class="portfolio-overlay"><div class="pf-card-title">Wedding Photography</div><div class="pf-card-sub">Candid & portrait shots</div><a href="#contact" class="pf-view-btn">View Project →</a></div></div>
+      <div class="portfolio-card" data-cat="wedding"><div class="portfolio-thumb pf-color-3"><div class="portfolio-placeholder"><span class="pf-icon">🎴</span><span class="pf-label">Wedding Poster</span></div></div><span class="portfolio-cat-tag">Wedding</span><div class="portfolio-overlay"><div class="pf-card-title">Wedding Poster</div><div class="pf-card-sub">Premium design</div><a href="#contact" class="pf-view-btn">View Project →</a></div></div>
+      <div class="portfolio-card" data-cat="realestate"><div class="portfolio-thumb pf-color-4"><div class="portfolio-placeholder"><span class="pf-icon">🏢</span><span class="pf-label">Property Reel</span></div></div><span class="portfolio-cat-tag">Real Estate</span><div class="portfolio-overlay"><div class="pf-card-title">Property Showcase Reel</div><div class="pf-card-sub">Drone + ground coverage</div><a href="#contact" class="pf-view-btn">View Project →</a></div></div>
+      <div class="portfolio-card" data-cat="realestate"><div class="portfolio-thumb pf-color-5"><div class="portfolio-placeholder"><span class="pf-icon">🚁</span><span class="pf-label">Drone Coverage</span></div></div><span class="portfolio-cat-tag">Real Estate</span><div class="portfolio-overlay"><div class="pf-card-title">Drone Aerial Coverage</div><div class="pf-card-sub">Builder project</div><a href="#contact" class="pf-view-btn">View Project →</a></div></div>
+      <div class="portfolio-card" data-cat="commercial"><div class="portfolio-thumb pf-color-6"><div class="portfolio-placeholder"><span class="pf-icon">🎯</span><span class="pf-label">Brand Film</span></div></div><span class="portfolio-cat-tag">Commercial</span><div class="portfolio-overlay"><div class="pf-card-title">Brand Film</div><div class="pf-card-sub">Corporate storytelling</div><a href="#contact" class="pf-view-btn">View Project →</a></div></div>
+      <div class="portfolio-card" data-cat="commercial"><div class="portfolio-thumb pf-color-1"><div class="portfolio-placeholder"><span class="pf-icon">🍔</span><span class="pf-label">Food Photography</span></div></div><span class="portfolio-cat-tag">Commercial</span><div class="portfolio-overlay"><div class="pf-card-title">Food Photoshoot</div><div class="pf-card-sub">Restaurant content</div><a href="#contact" class="pf-view-btn">View Project →</a></div></div>
+      <div class="portfolio-card" data-cat="design"><div class="portfolio-thumb pf-color-3"><div class="portfolio-placeholder"><span class="pf-icon">🎨</span><span class="pf-label">Logo Design</span></div></div><span class="portfolio-cat-tag">Design</span><div class="portfolio-overlay"><div class="pf-card-title">Logo & Brand Identity</div><div class="pf-card-sub">Complete rebrand</div><a href="#contact" class="pf-view-btn">View Project →</a></div></div>
+      <div class="portfolio-card" data-cat="design"><div class="portfolio-thumb pf-color-4"><div class="portfolio-placeholder"><span class="pf-icon">🚗</span><span class="pf-label">Car Poster</span></div></div><span class="portfolio-cat-tag">Design</span><div class="portfolio-overlay"><div class="pf-card-title">Car Poster Design</div><div class="pf-card-sub">Luxury car delivery</div><a href="#contact" class="pf-view-btn">View Project →</a></div></div>
+      <div class="portfolio-card" data-cat="events"><div class="portfolio-thumb pf-color-5"><div class="portfolio-placeholder"><span class="pf-icon">🎉</span><span class="pf-label">Event Reel</span></div></div><span class="portfolio-cat-tag">Events</span><div class="portfolio-overlay"><div class="pf-card-title">Event Highlight Reel</div><div class="pf-card-sub">Corporate event</div><a href="#contact" class="pf-view-btn">View Project →</a></div></div>
+      <div class="portfolio-card" data-cat="commercial"><div class="portfolio-thumb pf-color-6"><div class="portfolio-placeholder"><span class="pf-icon">🚗</span><span class="pf-label">Car Delivery</span></div></div><span class="portfolio-cat-tag">Commercial</span><div class="portfolio-overlay"><div class="pf-card-title">Car Delivery Video</div><div class="pf-card-sub">Luxury delivery film</div><a href="#contact" class="pf-view-btn">View Project →</a></div></div>
+      <div class="portfolio-card" data-cat="wedding"><div class="portfolio-thumb pf-color-2"><div class="portfolio-placeholder"><span class="pf-icon">💌</span><span class="pf-label">Invitation Design</span></div></div><span class="portfolio-cat-tag">Wedding</span><div class="portfolio-overlay"><div class="pf-card-title">Wedding Invitation</div><div class="pf-card-sub">Digital & print design</div><a href="#contact" class="pf-view-btn">View Project →</a></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- SOCIAL MEDIA GROWTH -->
+<section id="social">
+  <div class="section-max">
+    <div class="social-grid">
+      <div class="reveal-left">
+        <div class="section-eyebrow">Social Growth</div>
+        <h2 class="section-title">We Grow <span>Brands</span> Online</h2>
+        <p style="font-size:15px;color:var(--muted);line-height:1.7;margin-bottom:16px;">Trusted by growing brands, businesses and creators — we craft strategic social media ecosystems that convert followers into customers.</p>
+        <div class="social-features">
+          <div class="social-feat"><div class="social-feat-icon">📈</div><div><div class="social-feat-title">Content Strategy</div><div class="social-feat-sub">Data-driven content calendars that align with your brand voice</div></div></div>
+          <div class="social-feat"><div class="social-feat-icon">🎬</div><div><div class="social-feat-title">Reels Optimization</div><div class="social-feat-sub">Viral-ready reels with hooks, pacing, and captions that convert</div></div></div>
+          <div class="social-feat"><div class="social-feat-icon">💡</div><div><div class="social-feat-title">Brand Positioning</div><div class="social-feat-sub">Distinctive brand presence that stands out in a crowded feed</div></div></div>
+          <div class="social-feat"><div class="social-feat-icon">🎯</div><div><div class="social-feat-title">Creative Direction</div><div class="social-feat-sub">Cohesive visual identity across all social touchpoints</div></div></div>
+        </div>
+      </div>
+      <div class="reveal-right">
+        <div class="social-metrics">
+          <div class="metric-card"><div class="metric-num">10M+</div><div class="metric-label">Views Generated</div></div>
+          <div class="metric-card"><div class="metric-num">50K+</div><div class="metric-label">Followers Grown</div></div>
+          <div class="metric-card"><div class="metric-num">500+</div><div class="metric-label">Reels Edited</div></div>
+          <div class="metric-card"><div class="metric-num">95%</div><div class="metric-label">Client Retention</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SOFTWARE -->
+<section id="software">
+  <div class="section-max">
+    <div class="section-header reveal" style="text-align:center;">
+      <div class="section-eyebrow" style="justify-content:center;">Our Arsenal</div>
+      <h2 class="section-title">Software <span>Expertise</span></h2>
+      <p class="section-sub" style="margin:0 auto;">Industry-leading tools wielded by experienced hands — delivering professional-grade output every single time.</p>
+    </div>
+    <div class="software-grid">
+      <div class="sw-card reveal"><span class="sw-icon">🎬</span><div class="sw-name">Premiere Pro</div><div class="sw-bar-wrap"><div class="sw-bar" style="width:95%"></div></div><div class="sw-pct">95%</div></div>
+      <div class="sw-card reveal"><span class="sw-icon">✨</span><div class="sw-name">After Effects</div><div class="sw-bar-wrap"><div class="sw-bar" style="width:90%"></div></div><div class="sw-pct">90%</div></div>
+      <div class="sw-card reveal"><span class="sw-icon">🖊</span><div class="sw-name">Illustrator</div><div class="sw-bar-wrap"><div class="sw-bar" style="width:88%"></div></div><div class="sw-pct">88%</div></div>
+      <div class="sw-card reveal"><span class="sw-icon">📷</span><div class="sw-name">Lightroom</div><div class="sw-bar-wrap"><div class="sw-bar" style="width:92%"></div></div><div class="sw-pct">92%</div></div>
+      <div class="sw-card reveal"><span class="sw-icon">🎨</span><div class="sw-name">DaVinci Resolve</div><div class="sw-bar-wrap"><div class="sw-bar" style="width:85%"></div></div><div class="sw-pct">85%</div></div>
+      <div class="sw-card reveal"><span class="sw-icon">✂️</span><div class="sw-name">CapCut</div><div class="sw-bar-wrap"><div class="sw-bar" style="width:96%"></div></div><div class="sw-pct">96%</div></div>
+      <div class="sw-card reveal"><span class="sw-icon">🖼</span><div class="sw-name">CorelDRAW</div><div class="sw-bar-wrap"><div class="sw-bar" style="width:82%"></div></div><div class="sw-pct">82%</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- EQUIPMENT -->
+<section id="equipment">
+  <div class="section-max">
+    <div class="section-header reveal" style="text-align:center;">
+      <div class="section-eyebrow" style="justify-content:center;">Gear</div>
+      <h2 class="section-title">Equipment <span>We Use</span></h2>
+      <p class="section-sub" style="margin:0 auto;">Professional-grade gear to ensure every shot is cinematic, every moment is crystal clear.</p>
+    </div>
+    <div class="equip-grid">
+      <div class="equip-card reveal"><span class="equip-icon">📷</span><div class="equip-cat">Camera</div><div class="equip-name">Sony Alpha</div></div>
+      <div class="equip-card reveal"><span class="equip-icon">📷</span><div class="equip-cat">Camera</div><div class="equip-name">Canon EOS</div></div>
+      <div class="equip-card reveal"><span class="equip-icon">🚁</span><div class="equip-cat">Drone</div><div class="equip-name">DJI Drone</div></div>
+      <div class="equip-card reveal"><span class="equip-icon">🎤</span><div class="equip-cat">Audio</div><div class="equip-name">Wireless Mic</div></div>
+      <div class="equip-card reveal"><span class="equip-icon">🎙</span><div class="equip-cat">Audio</div><div class="equip-name">Shotgun Mic</div></div>
+      <div class="equip-card reveal"><span class="equip-icon">⚖️</span><div class="equip-cat">Stabilizer</div><div class="equip-name">Gimbal</div></div>
+      <div class="equip-card reveal"><span class="equip-icon">📐</span><div class="equip-cat">Stabilizer</div><div class="equip-name">Tripod</div></div>
+      <div class="equip-card reveal"><span class="equip-icon">💡</span><div class="equip-cat">Lighting</div><div class="equip-name">LED Panels</div></div>
+      <div class="equip-card reveal"><span class="equip-icon">🌟</span><div class="equip-cat">Lighting</div><div class="equip-name">Softboxes</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- WHY US -->
+<section id="why">
+  <div class="section-max">
+    <div class="section-header reveal" style="text-align:center;">
+      <div class="section-eyebrow" style="justify-content:center;">Why NB Mediaz</div>
+      <h2 class="section-title">Why Choose <span>Us?</span></h2>
+      <p class="section-sub" style="margin:0 auto;">We're not just another agency — we're your creative partners obsessed with delivering excellence on every project.</p>
+    </div>
+    <div class="why-grid">
+      <div class="why-card reveal"><div class="why-icon">🎭</div><div class="why-title">Creative Storytelling</div><div class="why-desc">Every project we take on begins with a story. We craft narratives that resonate emotionally and stay in the memory long after the scroll.</div></div>
+      <div class="why-card reveal"><div class="why-icon">⚡</div><div class="why-title">Fast Delivery</div><div class="why-desc">We respect your timelines. Our streamlined workflow ensures quick turnarounds without compromising on the quality you expect.</div></div>
+      <div class="why-card reveal"><div class="why-icon">🎞</div><div class="why-title">Professional Editing</div><div class="why-desc">Cinema-grade color grading, seamless cuts, dynamic motion graphics — every frame is crafted to the highest professional standard.</div></div>
+      <div class="why-card reveal"><div class="why-icon">🎯</div><div class="why-title">Brand-Focused Content</div><div class="why-desc">We don't just create content — we build brand assets. Every piece we produce reinforces your identity and speaks to your target audience.</div></div>
+      <div class="why-card reveal"><div class="why-icon">💎</div><div class="why-title">Premium Visual Quality</div><div class="why-desc">From 4K cinematics to high-res photography, we deliver visuals that genuinely impress — the kind that makes your audience stop scrolling.</div></div>
+      <div class="why-card reveal"><div class="why-icon">📱</div><div class="why-title">Social Media Expertise</div><div class="why-desc">We understand the algorithm. Our reels, thumbnails, and captions are optimized for maximum reach, engagement, and conversion.</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- TESTIMONIALS -->
+<section id="testimonials">
+  <div class="section-max">
+    <div class="section-header reveal" style="text-align:center;">
+      <div class="section-eyebrow" style="justify-content:center;">Client Love</div>
+      <h2 class="section-title">What Clients <span>Say</span></h2>
+    </div>
+    <div class="testi-grid">
+      <div class="testi-card reveal">
+        <span class="testi-quote">"</span>
+        <div class="testi-stars">★★★★★</div>
+        <p class="testi-text">Arif and the NB Mediaz team captured our wedding beautifully. The cinematic reel left us speechless — every emotion, every moment was preserved perfectly. Couldn't have asked for more.</p>
+        <div class="testi-author"><div class="testi-avatar">R</div><div><div class="testi-name">Rahul & Priya Sharma</div><div class="testi-role">Wedding Client · Nashik</div></div></div>
+      </div>
+      <div class="testi-card reveal">
+        <span class="testi-quote">"</span>
+        <div class="testi-stars">★★★★★</div>
+        <p class="testi-text">Our property sales increased significantly after NB Mediaz created our drone reels and property photography. The quality is exceptional and the team is extremely professional.</p>
+        <div class="testi-author"><div class="testi-avatar">S</div><div><div class="testi-name">Suresh Patil</div><div class="testi-role">Real Estate Developer · Nashik</div></div></div>
+      </div>
+      <div class="testi-card reveal">
+        <span class="testi-quote">"</span>
+        <div class="testi-stars">★★★★★</div>
+        <p class="testi-text">From logo design to Instagram reels — NB Mediaz handled our entire brand identity. Our brand now has a strong, consistent presence online. Highly recommended!</p>
+        <div class="testi-author"><div class="testi-avatar">A</div><div><div class="testi-name">Aditya Joshi</div><div class="testi-role">Restaurant Owner · Nashik</div></div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- INSTAGRAM -->
+<section id="instagram">
+  <div class="section-max">
+    <div class="insta-header reveal">
+      <div class="section-eyebrow" style="justify-content:center;">Instagram</div>
+      <h2 class="section-title" style="text-align:center;">Follow Our <span>Journey</span></h2>
+      <p class="section-sub" style="margin:0 auto;text-align:center;">Stay updated with our latest work, behind-the-scenes moments, and creative process.</p>
+    </div>
+    <div class="insta-grid reveal">
+      <div class="insta-item" style="background:linear-gradient(135deg,#1a0a00,#3d1800);"><div class="insta-placeholder"><span style="font-size:36px;">💒</span></div><div class="insta-overlay">📸</div></div>
+      <div class="insta-item" style="background:linear-gradient(135deg,#0a1a00,#1a3d00);"><div class="insta-placeholder"><span style="font-size:36px;">🏢</span></div><div class="insta-overlay">📸</div></div>
+      <div class="insta-item" style="background:linear-gradient(135deg,#0a0a1a,#1a1a3d);"><div class="insta-placeholder"><span style="font-size:36px;">🎨</span></div><div class="insta-overlay">📸</div></div>
+      <div class="insta-item" style="background:linear-gradient(135deg,#1a001a,#3d003d);"><div class="insta-placeholder"><span style="font-size:36px;">🎬</span></div><div class="insta-overlay">📸</div></div>
+      <div class="insta-item" style="background:linear-gradient(135deg,#1a1a00,#3d3d00);"><div class="insta-placeholder"><span style="font-size:36px;">📸</span></div><div class="insta-overlay">📸</div></div>
+      <div class="insta-item" style="background:linear-gradient(135deg,#001a1a,#003d3d);"><div class="insta-placeholder"><span style="font-size:36px;">🚗</span></div><div class="insta-overlay">📸</div></div>
+    </div>
+    <div class="insta-cta reveal">
+      <a href="https://instagram.com/nb_mediaz" target="_blank" class="insta-follow-btn">
+        <span style="font-size:20px;">📷</span>
+        Follow @nb_mediaz
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section id="contact">
+  <div class="section-max">
+    <div class="contact-grid">
+      <div class="contact-info reveal-left">
+        <div class="section-eyebrow">Get In Touch</div>
+        <h2 class="section-title">Let's Create <span>Together</span></h2>
+        <p>Ready to bring your vision to life? Reach out and let's discuss your project. Whether it's a wedding, brand film, or social media strategy — we've got you covered.</p>
+        <div class="contact-items">
+          <div class="contact-item"><div class="c-icon">👤</div><div><div class="c-label">Contact Person</div><div class="c-val">Arif Khan — NB Mediaz</div></div></div>
+          <div class="contact-item"><div class="c-icon">📞</div><div><div class="c-label">Phone / WhatsApp</div><div class="c-val"><a href="tel:+919960935122">+91 99609 35122</a></div></div></div>
+          <div class="contact-item"><div class="c-icon">📷</div><div><div class="c-label">Instagram</div><div class="c-val"><a href="https://instagram.com/nb_mediaz" target="_blank">@nb_mediaz</a></div></div></div>
+          <div class="contact-item"><div class="c-icon">📧</div><div><div class="c-label">Email</div><div class="c-val"><a href="mailto:info@nbmediaz.com">info@nbmediaz.com</a></div></div></div>
+          <div class="contact-item"><div class="c-icon">📍</div><div><div class="c-label">Location</div><div class="c-val">Nashik, Maharashtra, India</div></div></div>
+        </div>
+        <div class="contact-btns">
+          <a href="tel:+919960935122" class="c-btn c-btn-call">📞 Call Now</a>
+          <a href="https://wa.me/919960935122" target="_blank" class="c-btn c-btn-wa">💬 WhatsApp</a>
+          <a href="https://instagram.com/nb_mediaz" target="_blank" class="c-btn c-btn-ig">📷 Instagram DM</a>
+        </div>
+      </div>
+      <div class="contact-form reveal-right">
+        <h3>Send A Message</h3>
+        <div class="form-group"><label>Your Name</label><input type="text" placeholder="e.g. Rahul Sharma"/></div>
+        <div class="form-group"><label>Phone Number</label><input type="tel" placeholder="+91 XXXXX XXXXX"/></div>
+        <div class="form-group"><label>Email Address</label><input type="email" placeholder="your@email.com"/></div>
+        <div class="form-group"><label>Service Interested In</label>
+          <select>
+            <option value="">Select a service...</option>
+            <option>Wedding Films & Photography</option>
+            <option>Real Estate Reels & Photography</option>
+            <option>Commercial Brand Film</option>
+            <option>Social Media Management</option>
+            <option>Graphic Design & Branding</option>
+            <option>Event Coverage</option>
+            <option>Other</option>
+          </select>
+        </div>
+        <div class="form-group"><label>Your Message</label><textarea placeholder="Tell us about your project..."></textarea></div>
+        <button class="form-submit" onclick="submitForm()">Send Message →</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-grid">
+    <div class="footer-brand">
+      <a class="footer-logo-wrap" href="#hero">
+        <div style="width:44px;height:44px;background:#000;border-radius:50%;display:flex;align-items:center;justify-content:center;font-family:'Bebas Neue',sans-serif;font-size:20px;color:var(--orange);border:2px solid var(--orange);flex-shrink:0;">NB</div>
+        <span class="footer-nb" style="font-family:'Bebas Neue',sans-serif;font-size:22px;letter-spacing:2px;margin-left:8px;"><span style="color:var(--orange);">NB</span> MEDIAZ</span>
+      </a>
+      <p>Your Vision, Our Creation. Premium creative agency transforming brands, weddings, properties and products into scroll-stopping visual experiences.</p>
+      <div class="footer-social">
+        <a href="https://instagram.com/nb_mediaz" target="_blank" title="Instagram">📷</a>
+        <a href="#" title="Facebook">📘</a>
+        <a href="#" title="YouTube">▶️</a>
+        <a href="#" title="LinkedIn">💼</a>
+        <a href="https://wa.me/919960935122" target="_blank" title="WhatsApp">💬</a>
+      </div>
+    </div>
+    <div class="footer-col">
+      <h4>Quick Links</h4>
+      <ul>
+        <li><a href="#hero">Home</a></li>
+        <li><a href="#about">About</a></li>
+        <li><a href="#services">Services</a></li>
+        <li><a href="#portfolio">Portfolio</a></li>
+        <li><a href="#why">Why Us</a></li>
+        <li><a href="#contact">Contact</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4>Services</h4>
+      <ul>
+        <li><a href="#services">Wedding Films</a></li>
+        <li><a href="#services">Real Estate</a></li>
+        <li><a href="#services">Brand Films</a></li>
+        <li><a href="#services">Social Media</a></li>
+        <li><a href="#services">Graphic Design</a></li>
+        <li><a href="#services">Photography</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4>Contact</h4>
+      <ul>
+        <li><a href="tel:+919960935122">+91 99609 35122</a></li>
+        <li><a href="https://instagram.com/nb_mediaz" target="_blank">@nb_mediaz</a></li>
+        <li><a href="mailto:info@nbmediaz.com">info@nbmediaz.com</a></li>
+        <li><a href="#">Nashik, Maharashtra</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <p>© 2024 NB Mediaz. All Rights Reserved. Crafted with ❤️ by Arif Khan.</p>
+    <p style="color:var(--orange);font-size:12px;">Your Vision, Our Creation</p>
+  </div>
+</footer>
+
+<!-- FLOATING BUTTONS -->
+<a href="https://wa.me/919960935122" target="_blank" class="float-wa" title="WhatsApp">💬</a>
+<div class="float-top" id="backTop" onclick="window.scrollTo({top:0,behavior:'smooth'})" title="Back to Top">↑</div>
+
+<script>
+// LOADER
+window.addEventListener('load',()=>{
+  setTimeout(()=>{
+    document.getElementById('loader').classList.add('hide');
+  },2000);
+});
+
+// CURSOR
+const cursor=document.getElementById('cursor');
+const ring=document.getElementById('cursor-ring');
+document.addEventListener('mousemove',e=>{
+  cursor.style.left=e.clientX+'px';
+  cursor.style.top=e.clientY+'px';
+  setTimeout(()=>{ring.style.left=e.clientX+'px';ring.style.top=e.clientY+'px';},60);
+});
+document.querySelectorAll('a,button').forEach(el=>{
+  el.addEventListener('mouseenter',()=>{cursor.style.width='20px';cursor.style.height='20px';ring.style.width='60px';ring.style.height='60px';ring.style.opacity='0.4';});
+  el.addEventListener('mouseleave',()=>{cursor.style.width='12px';cursor.style.height='12px';ring.style.width='40px';ring.style.height='40px';ring.style.opacity='0.6';});
+});
+
+// SCROLL PROGRESS
+window.addEventListener('scroll',()=>{
+  const prog=document.getElementById('scroll-prog');
+  const pct=(window.scrollY/(document.body.scrollHeight-window.innerHeight))*100;
+  prog.style.width=pct+'%';
+
+  // NAV
+  const nav=document.getElementById('navbar');
+  nav.classList.toggle('scrolled',window.scrollY>50);
+
+  // BACK TO TOP
+  document.getElementById('backTop').classList.toggle('show',window.scrollY>400);
+});
+
+// MOBILE MENU
+function openMobile(){document.getElementById('mobileMenu').classList.add('open');document.body.style.overflow='hidden';}
+function closeMobile(){document.getElementById('mobileMenu').classList.remove('open');document.body.style.overflow='';}
+document.getElementById('mobileClose').addEventListener('click',closeMobile);
+
+// PORTFOLIO FILTER
+function filterPortfolio(cat,btn){
+  document.querySelectorAll('.pf-btn').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');
+  document.querySelectorAll('.portfolio-card').forEach(card=>{
+    if(cat==='all'||card.dataset.cat===cat){
+      card.style.display='';
+      setTimeout(()=>{card.style.opacity='1';card.style.transform='';},10);
+    } else {
+      card.style.opacity='0';
+      card.style.transform='scale(0.95)';
+      setTimeout(()=>{card.style.display='none';},300);
+    }
+    card.style.transition='opacity 0.3s,transform 0.3s';
+  });
+}
+
+// REVEAL ON SCROLL
+const observer=new IntersectionObserver((entries)=>{
+  entries.forEach(e=>{
+    if(e.isIntersecting){e.target.classList.add('visible');}
+  });
+},{threshold:0.12});
+document.querySelectorAll('.reveal,.reveal-left,.reveal-right').forEach(el=>observer.observe(el));
+
+// STAGGER CHILDREN
+document.querySelectorAll('.services-grid,.portfolio-grid,.why-grid,.testi-grid,.software-grid,.equip-grid').forEach(grid=>{
+  grid.querySelectorAll('.service-card,.portfolio-card,.why-card,.testi-card,.sw-card,.equip-card').forEach((card,i)=>{
+    card.style.transitionDelay=(i*0.06)+'s';
+  });
+});
+
+// FORM SUBMIT
+function submitForm(){
+  const btn=document.querySelector('.form-submit');
+  btn.textContent='Message Sent! ✓';
+  btn.style.background='#25D366';
+  setTimeout(()=>{btn.textContent='Send Message →';btn.style.background='';},3000);
+}
+
+// SMOOTH ANCHOR
+document.querySelectorAll('a[href^="#"]').forEach(a=>{
+  a.addEventListener('click',e=>{
+    const id=a.getAttribute('href').slice(1);
+    const el=document.getElementById(id);
+    if(el){e.preventDefault();el.scrollIntoView({behavior:'smooth',block:'start'});}
+  });
+});
+</script>
+</body>
+</html>
